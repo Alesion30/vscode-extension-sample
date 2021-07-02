@@ -1,6 +1,6 @@
 import vscode from './plugin/vscode';
 import dayjs from './plugin/dayjs';
-import { countTextLength } from './lib/utils';
+import { countTextLength, getFileName } from './lib/utils';
 
 export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "vscode-extension-sample" is now active!');
@@ -41,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const activeEditor = vscode.window.activeTextEditor;
 	if (activeEditor) {
 		const doc = activeEditor.document;
-		const fileName = doc.fileName;
+		const fileName = getFileName(doc.fileName);
 		const text = doc.getText();
 		const count = countTextLength(text);
 
@@ -60,7 +60,7 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.onDidChangeActiveTextEditor(activeEditor => {
 		if (activeEditor) {
 			const doc = activeEditor.document;
-			const fileName = doc.fileName;
+			const fileName = getFileName(doc.fileName);
 			const text = doc.getText();
 			const count = countTextLength(text);
 
