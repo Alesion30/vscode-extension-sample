@@ -16,47 +16,13 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 	context.subscriptions.push(helloWorld);
 
-	// 文字数カウント コマンド
-	const charCount = vscode.commands.registerCommand('vscode-extension-sample.charCount', () => {
-		const editor = vscode.window.activeTextEditor;
-
-		if (editor) {
-			const doc = editor.document;
-			const text = doc.getText();
-			vscode.window.showInformationMessage(`文字数: ${text.length}`);
-		} else {
-			vscode.window.showInformationMessage('ファイルを開いてください');
-		}
-	});
-	context.subscriptions.push(charCount);
-
-	// 入力スピード
-	let lastInputTextDate = dayjs();
-	let lastInputTextCount = 0;
+	// 文字数反映
 	vscode.workspace.onDidChangeTextDocument(event => {
-		const now = dayjs();
 		const doc = event.document;
 		const text = doc.getText();
 		const count = text.length;
-
-		// 文字数反映
 		charCountItem.text = `文字数: ${count}`;
 		charCountItem.show();
-
-		// 差分
-		const diffTime = now.diff(lastInputTextDate) / 1000; // 秒[s]
-		const diffCount = count - lastInputTextCount;
-
-		// スピード反映
-		const speed = diffTime > 0 ? Math.round(diffCount / diffTime * 100) / 100 : -1;
-		if (diffCount > 0) {
-			inputSpeedItem.text = `入力スピード: ${speed}`;
-			inputSpeedItem.show();
-		}
-
-		// 時刻更新
-		lastInputTextDate = now;
-		lastInputTextCount = count;
 	}, null, context.subscriptions);
 
 	// ファイル名・文字数 表示
@@ -100,14 +66,35 @@ export function activate(context: vscode.ExtensionContext) {
 		const now = dayjs();
 		nowTimeItem.text = now.format('現在時刻: HH:mm:ss');
 		nowTimeItem.show();
-
-		// 入力スピード リセット
-		const diffTime = now.diff(lastInputTextDate) / 1000; // 秒[s]
-		if (diffTime > 3) {
-			inputSpeedItem.text = `入力スピード: ${0}`;
-			inputSpeedItem.show();
-		}
 	}, 100);
+
+	// 入力スピード
+	const diffTime = 1;
+	let lastInputTextDate = dayjs();
+	let lastInputTextCount = 0;
+	setInterval(() => {
+		const activeEditor = vscode.window.activeTextEditor;
+		if (activeEditor) {
+			const now = dayjs();
+			const doc = activeEditor.document;
+			const text = doc.getText();
+			const count = text.length;
+
+			// 差分
+			const diffCount = count - lastInputTextCount;
+
+			// スピード反映
+			const speed = diffTime > 0 ? Math.round(diffCount / diffTime * 100) / 100 : -1;
+			if (diffCount >= 0) {
+				inputSpeedItem.text = `入力スピード: ${speed}[word/s]`;
+				inputSpeedItem.show();
+			}
+
+			// 時刻更新
+			lastInputTextDate = now;
+			lastInputTextCount = count;
+		}
+	}, diffTime * 1000);
 }
 
 export function deactivate() { }
