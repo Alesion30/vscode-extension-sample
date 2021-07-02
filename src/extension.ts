@@ -120,12 +120,16 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions
   );
   setInterval(() => {
+    // 小数点以下の桁数
+    const digits = 1;
+
     // 入力スピード 算出
     const diffCount = isTextChangeEventHookCount;
-    const speed = Math.round((diffCount / diffTime) * 100) / 100;
+    const speed =
+      Math.round((diffCount / diffTime) * 10 ** digits) / 10 ** digits;
 
     // スピード反映
-    inputSpeedItem.text = `入力スピード: ${speed}/s`;
+    inputSpeedItem.text = `入力スピード: ${speed.toFixed(digits)}/s`;
     inputSpeedItem.show();
 
     // 初期化
