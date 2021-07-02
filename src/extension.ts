@@ -65,7 +65,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const count = countTextLength(text);
 
 			// ファイル名 反映
-			fileNameItem.text = fileName;
+			fileNameItem.text = `ファイル名: ${fileName}`;
 			fileNameItem.show();
 
 			// 文字数反映
