@@ -1,5 +1,6 @@
 import vscode from './plugin/vscode';
 import dayjs from './plugin/dayjs';
+import { countTextLength } from './lib/utils';
 
 export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "vscode-extension-sample" is now active!');
@@ -20,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.workspace.onDidChangeTextDocument(event => {
 		const doc = event.document;
 		const text = doc.getText();
-		const count = text.length;
+		const count = countTextLength(text);
 		charCountItem.text = `文字数: ${count}`;
 		charCountItem.show();
 	}, null, context.subscriptions);
@@ -31,7 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
 		const doc = activeEditor.document;
 		const fileName = doc.fileName;
 		const text = doc.getText();
-		const count = text.length;
+		const count = countTextLength(text);
 
 		// ファイル名 反映
 		fileNameItem.text = fileName;
@@ -41,12 +42,12 @@ export function activate(context: vscode.ExtensionContext) {
 		charCountItem.text = `文字数: ${count}`;
 		charCountItem.show();
 	}
-	vscode.window.onDidChangeActiveTextEditor(event => {
-		if (event) {
-			const doc = event.document;
+	vscode.window.onDidChangeActiveTextEditor(activeEditor => {
+		if (activeEditor) {
+			const doc = activeEditor.document;
 			const fileName = doc.fileName;
 			const text = doc.getText();
-			const count = text.length;
+			const count = countTextLength(text);
 
 			// ファイル名 反映
 			fileNameItem.text = fileName;
@@ -78,7 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const now = dayjs();
 			const doc = activeEditor.document;
 			const text = doc.getText();
-			const count = text.length;
+			const count = countTextLength(text);
 
 			// 差分
 			const diffCount = count - lastInputTextCount;
