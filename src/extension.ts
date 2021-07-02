@@ -2,7 +2,7 @@ import vscode from './plugin/vscode';
 import dayjs from './plugin/dayjs';
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('Congratulations, your extension "vscode-sample" is now active!');
+	console.log('Congratulations, your extension "vscode-extension-sample" is now active!');
 
 	// ステータスバー
 	const inputSpeedItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
@@ -11,13 +11,13 @@ export function activate(context: vscode.ExtensionContext) {
 	const nowTimeItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
 
 	// hello world コマンド
-	const helloWorld = vscode.commands.registerCommand('vscode-sample.helloWorld', () => {
-		vscode.window.showInformationMessage('Hello World from vscode-sample!');
+	const helloWorld = vscode.commands.registerCommand('vscode-extension-sample.helloWorld', () => {
+		vscode.window.showInformationMessage('Hello World from vscode-extension-sample!');
 	});
 	context.subscriptions.push(helloWorld);
 
 	// 文字数カウント コマンド
-	const charCount = vscode.commands.registerCommand('vscode-sample.charCount', () => {
+	const charCount = vscode.commands.registerCommand('vscode-extension-sample.charCount', () => {
 		const editor = vscode.window.activeTextEditor;
 
 		if (editor) {

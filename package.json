@@ -1,6 +1,6 @@
 {
-	"name": "vscode-sample",
-	"displayName": "vscode-sample",
+	"name": "vscode-extension-sample",
+	"displayName": "vscode-extension-sample",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -16,11 +16,11 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "vscode-sample.helloWorld",
+				"command": "vscode-extension-sample.helloWorld",
 				"title": "Hello World"
 			},
 			{
-				"command": "vscode-sample.charCount",
+				"command": "vscode-extension-sample.charCount",
 				"title": "文字数カウント"
 			}
 		]
