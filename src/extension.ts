@@ -100,7 +100,7 @@ export function activate(context: vscode.ExtensionContext) {
 	setInterval(() => {
 		// 入力スピード 算出
 		const diffCount = isTextChangeEventHookCount;
-		const speed = diffTime > 0 ? Math.round(diffCount / diffTime * 100) / 100 : -1;
+		const speed = Math.round(diffCount / diffTime * 100) / 100;
 
 		// スピード反映
 		inputSpeedItem.text = `入力スピード: ${speed}/s`;
