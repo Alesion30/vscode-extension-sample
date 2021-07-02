@@ -5,19 +5,27 @@ import { countTextLength } from './lib/utils';
 export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "vscode-extension-sample" is now active!');
 
+	//////////////////////////////////////////////////////////////
 	// ステータスバー
+	//////////////////////////////////////////////////////////////
 	const inputSpeedItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
 	const charCountItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 2);
 	const fileNameItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 3);
 	const nowTimeItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 1000);
 
-	// hello world コマンド
+
+	//////////////////////////////////////////////////////////////
+	// Hello World コマンド
+	//////////////////////////////////////////////////////////////
 	const helloWorld = vscode.commands.registerCommand('vscode-extension-sample.helloWorld', () => {
 		vscode.window.showInformationMessage('Hello World from vscode-extension-sample!');
 	});
 	context.subscriptions.push(helloWorld);
 
-	// 文字数反映
+
+	//////////////////////////////////////////////////////////////
+	// 文字数 表示 （ファイル編集時）
+	//////////////////////////////////////////////////////////////
 	vscode.workspace.onDidChangeTextDocument(event => {
 		const doc = event.document;
 		const text = doc.getText();
@@ -26,7 +34,10 @@ export function activate(context: vscode.ExtensionContext) {
 		charCountItem.show();
 	}, null, context.subscriptions);
 
-	// ファイル名・文字数 表示
+
+	//////////////////////////////////////////////////////////////
+	// ファイル名・文字数 表示 （ファイル表示時）
+	//////////////////////////////////////////////////////////////
 	const activeEditor = vscode.window.activeTextEditor;
 	if (activeEditor) {
 		const doc = activeEditor.document;
@@ -57,44 +68,42 @@ export function activate(context: vscode.ExtensionContext) {
 			charCountItem.text = `文字数: ${count}`;
 			charCountItem.show();
 		} else {
+			// 非表示
 			fileNameItem.hide();
+			charCountItem.hide();
 		}
 	});
 
-	// update処理
+
+	//////////////////////////////////////////////////////////////
+	// 現在時刻表示
+	//////////////////////////////////////////////////////////////
 	setInterval(() => {
-		// 現在時刻表示
 		const now = dayjs();
 		nowTimeItem.text = now.format('現在時刻: HH:mm:ss');
 		nowTimeItem.show();
 	}, 100);
 
+
+	//////////////////////////////////////////////////////////////
 	// 入力スピード
-	const diffTime = 1;
-	let lastInputTextDate = dayjs();
-	let lastInputTextCount = 0;
+	//////////////////////////////////////////////////////////////
+	const diffTime = 1; // 更新間隔[s]
+	let isTextChangeEventHookCount = 0; // ファイル編集イベント呼び出し回数
+	vscode.workspace.onDidChangeTextDocument(activeEditor => {
+		isTextChangeEventHookCount++;
+	}, null, context.subscriptions);
 	setInterval(() => {
-		const activeEditor = vscode.window.activeTextEditor;
-		if (activeEditor) {
-			const now = dayjs();
-			const doc = activeEditor.document;
-			const text = doc.getText();
-			const count = countTextLength(text);
+		// 入力スピード 算出
+		const diffCount = isTextChangeEventHookCount;
+		const speed = diffTime > 0 ? Math.round(diffCount / diffTime * 100) / 100 : -1;
 
-			// 差分
-			const diffCount = count - lastInputTextCount;
+		// スピード反映
+		inputSpeedItem.text = `入力スピード: ${speed}[word/s]`;
+		inputSpeedItem.show();
 
-			// スピード反映
-			const speed = diffTime > 0 ? Math.round(diffCount / diffTime * 100) / 100 : -1;
-			if (diffCount >= 0) {
-				inputSpeedItem.text = `入力スピード: ${speed}[word/s]`;
-				inputSpeedItem.show();
-			}
-
-			// 時刻更新
-			lastInputTextDate = now;
-			lastInputTextCount = count;
-		}
+		// 初期化
+		isTextChangeEventHookCount = 0;
 	}, diffTime * 1000);
 }
 
