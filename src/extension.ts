@@ -8,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const inputSpeedItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
 	const charCountItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 2);
 	const fileNameItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 3);
-	const nowTimeItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+	const nowTimeItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 1000);
 
 	// hello world コマンド
 	const helloWorld = vscode.commands.registerCommand('vscode-extension-sample.helloWorld', () => {
