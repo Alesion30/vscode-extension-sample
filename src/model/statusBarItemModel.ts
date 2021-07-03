@@ -34,7 +34,7 @@ class StatusBarItemModel {
    * 文字を非表示にする
    */
   public hide = () => this._item.hide();
-};
+}
 
 /**
  * [ステータスバー] ファイル名
@@ -50,7 +50,7 @@ export class FileNameStatusBarItemModel extends StatusBarItemModel {
    * @param fileName ファイル名
    */
   public show = (fileName: string) => this._show(`ファイル名: ${fileName}`);
-};
+}
 
 /**
  * [ステータスバー] 入力スピード
@@ -68,7 +68,7 @@ export class InputSpeedStatusBarItemModel extends StatusBarItemModel {
    */
   public show = (speed: number, digits: number = 1) =>
     this._show(`入力スピード: ${speed.toFixed(digits)}/s`);
-};
+}
 
 /**
  * [ステータスバー] 文字数
@@ -84,7 +84,7 @@ export class CharCountStatusBarItemModel extends StatusBarItemModel {
    * @param count 文字数
    */
   public show = (count: number) => this._show(`文字数: ${count}`);
-};
+}
 
 /**
  * [ステータスバー] 現在時刻
@@ -103,4 +103,4 @@ export class NowTimeStatusBarItemModel extends StatusBarItemModel {
     const formattedDateText = now.format("HH:mm:ss");
     this._show(`現在時刻: ${formattedDateText}`);
   };
-};
+}

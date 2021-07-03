@@ -1,5 +1,8 @@
 import { APP_NAME } from "../config/env";
-import { FileNameStatusBarItemModel, CharCountStatusBarItemModel } from "../model/statusBarItemModel";
+import {
+  FileNameStatusBarItemModel,
+  CharCountStatusBarItemModel,
+} from "../model/statusBarItemModel";
 import vscode from "../plugin/vscode";
 import { getFileName, countTextLength } from "./utils";
 
@@ -35,7 +38,7 @@ export const registerCommand = (
 export const reflectFileNameAndCharCount = (
   activeEditor: vscode.TextEditor | undefined,
   fileNameStatusBarItemModel: FileNameStatusBarItemModel,
-  charCountStatusBarItemModel: CharCountStatusBarItemModel,
+  charCountStatusBarItemModel: CharCountStatusBarItemModel
 ) => {
   if (activeEditor) {
     const doc = activeEditor.document;

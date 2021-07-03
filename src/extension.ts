@@ -53,9 +53,17 @@ export const activate = (context: vscode.ExtensionContext) => {
   // ファイル名・文字数 表示 （ファイル表示時）
   //////////////////////////////////////////////////////////////
   const activeEditor = vscode.window.activeTextEditor;
-  reflectFileNameAndCharCount(activeEditor, fileNameStatusBarItemModel, charCountStatusBarItemModel);
+  reflectFileNameAndCharCount(
+    activeEditor,
+    fileNameStatusBarItemModel,
+    charCountStatusBarItemModel
+  );
   vscode.window.onDidChangeActiveTextEditor((activeEditor) => {
-    reflectFileNameAndCharCount(activeEditor, fileNameStatusBarItemModel, charCountStatusBarItemModel);
+    reflectFileNameAndCharCount(
+      activeEditor,
+      fileNameStatusBarItemModel,
+      charCountStatusBarItemModel
+    );
   });
 
   //////////////////////////////////////////////////////////////
