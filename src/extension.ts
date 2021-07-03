@@ -30,9 +30,18 @@ export const activate = (context: vscode.ExtensionContext) => {
   //////////////////////////////////////////////////////////////
   // 現在時刻表示
   //////////////////////////////////////////////////////////////
+  let flag = false;
   setInterval(() => {
     const now = dayjs();
     nowTimeStatusBarItemModel.show(now);
+
+    // 毎分のアラート
+    if (now.second() === 0 && flag === false) {
+      showInformationMessage(`${now.format("HH時mm分")}になりました`);
+      flag = true;
+    } else if (now.second() !== 0) {
+      flag = false;
+    }
   }, 100);
 
   //////////////////////////////////////////////////////////////
