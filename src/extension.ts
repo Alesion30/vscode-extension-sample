@@ -1,6 +1,6 @@
 import vscode, { showInformationMessage } from "./plugin/vscode";
 import dayjs from "./plugin/dayjs";
-import { countTextLength, getFileName } from "./lib/utils";
+import { calculateSpeed, countTextLength, getFileName } from "./lib/utils";
 import { registerCommand } from "./lib/vscode";
 import {
   CharCountStatusBarItemModel,
@@ -106,8 +106,7 @@ export const activate = (context: vscode.ExtensionContext) => {
 
     // 入力スピード 算出
     const diffCount = isTextChangeEventHookCount;
-    const speed =
-      Math.round((diffCount / diffTime) * 10 ** digits) / 10 ** digits;
+    const speed = calculateSpeed(diffCount, diffTime, digits);
 
     // スピード反映
     inputSpeedStatusBarItemModel.show(speed, digits);
