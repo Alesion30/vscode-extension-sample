@@ -10,7 +10,7 @@ import {
 /**
  * [ステータスバー] 継承元
  */
-const StatusBarItemModel = class {
+class StatusBarItemModel {
   constructor(item: StatusBarItem) {
     this._item = item;
   }
@@ -39,7 +39,7 @@ const StatusBarItemModel = class {
 /**
  * [ステータスバー] ファイル名
  */
-export const FileNameStatusBarItemModel = class extends StatusBarItemModel {
+export class FileNameStatusBarItemModel extends StatusBarItemModel {
   constructor() {
     super(fileNameStatusBarItem);
   }
@@ -55,7 +55,7 @@ export const FileNameStatusBarItemModel = class extends StatusBarItemModel {
 /**
  * [ステータスバー] 入力スピード
  */
-export const InputSpeedStatusBarItemModel = class extends StatusBarItemModel {
+export class InputSpeedStatusBarItemModel extends StatusBarItemModel {
   constructor() {
     super(inputSpeedStatusBarItem);
   }
@@ -73,7 +73,7 @@ export const InputSpeedStatusBarItemModel = class extends StatusBarItemModel {
 /**
  * [ステータスバー] 文字数
  */
-export const CharCountStatusBarItemModel = class extends StatusBarItemModel {
+export class CharCountStatusBarItemModel extends StatusBarItemModel {
   constructor() {
     super(charCountStatusBarItem);
   }
@@ -89,7 +89,7 @@ export const CharCountStatusBarItemModel = class extends StatusBarItemModel {
 /**
  * [ステータスバー] 現在時刻
  */
-export const NowTimeStatusBarItemModel = class extends StatusBarItemModel {
+export class NowTimeStatusBarItemModel extends StatusBarItemModel {
   constructor() {
     super(nowTimeStatusBarItem);
   }

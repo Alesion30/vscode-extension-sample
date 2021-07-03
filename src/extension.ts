@@ -1,7 +1,7 @@
 import vscode, { showInformationMessage } from "./plugin/vscode";
 import dayjs from "./plugin/dayjs";
-import { calculateSpeed, countTextLength, getFileName } from "./lib/utils";
-import { registerCommand } from "./lib/vscode";
+import { calculateSpeed, countTextLength } from "./lib/utils";
+import { reflectFileNameAndCharCount, registerCommand } from "./lib/vscode";
 import {
   CharCountStatusBarItemModel,
   FileNameStatusBarItemModel,
@@ -45,39 +45,9 @@ export const activate = (context: vscode.ExtensionContext) => {
   // ファイル名・文字数 表示 （ファイル表示時）
   //////////////////////////////////////////////////////////////
   const activeEditor = vscode.window.activeTextEditor;
-  if (activeEditor) {
-    const doc = activeEditor.document;
-    const fileName = getFileName(doc.fileName);
-    const text = doc.getText();
-    const count = countTextLength(text);
-
-    // ファイル名 反映
-    fileNameStatusBarItemModel.show(fileName);
-
-    // 文字数反映
-    charCountStatusBarItemModel.show(count);
-  } else {
-    // 非表示
-    fileNameStatusBarItemModel.hide();
-    charCountStatusBarItemModel.hide();
-  }
+  reflectFileNameAndCharCount(activeEditor, fileNameStatusBarItemModel, charCountStatusBarItemModel);
   vscode.window.onDidChangeActiveTextEditor((activeEditor) => {
-    if (activeEditor) {
-      const doc = activeEditor.document;
-      const fileName = getFileName(doc.fileName);
-      const text = doc.getText();
-      const count = countTextLength(text);
-
-      // ファイル名 反映
-      fileNameStatusBarItemModel.show(fileName);
-
-      // 文字数反映
-      charCountStatusBarItemModel.show(count);
-    } else {
-      // 非表示
-      fileNameStatusBarItemModel.hide();
-      charCountStatusBarItemModel.hide();
-    }
+    reflectFileNameAndCharCount(activeEditor, fileNameStatusBarItemModel, charCountStatusBarItemModel);
   });
 
   //////////////////////////////////////////////////////////////
@@ -94,9 +64,7 @@ export const activate = (context: vscode.ExtensionContext) => {
   const diffTime = 1; // 更新間隔[s]
   let isTextChangeEventHookCount = 0; // ファイル編集イベント呼び出し回数
   vscode.workspace.onDidChangeTextDocument(
-    () => {
-      isTextChangeEventHookCount++;
-    },
+    () => isTextChangeEventHookCount++,
     null,
     context.subscriptions
   );
