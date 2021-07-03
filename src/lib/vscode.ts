@@ -27,9 +27,9 @@ export const registerCommand = (
 /**
  * ファイル名と文字数を反映する
  *
- * @param command コマンド名
- * @param callback コマンドの実行処理
- * @param disposables Disposables
+ * @param activeEditor アクティブになっているファイル情報
+ * @param fileNameStatusBarItemModel [ステータスバー] ファイル名
+ * @param charCountStatusBarItemModel [ステータスバー] 文字数カウント
  * @return
  */
 export const reflectFileNameAndCharCount = (
