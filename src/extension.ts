@@ -1,4 +1,4 @@
-import vscode from "./plugin/vscode";
+import vscode, { showInformationMessage } from "./plugin/vscode";
 import dayjs from "./plugin/dayjs";
 import { countTextLength, getFileName } from "./lib/utils";
 import {
@@ -7,20 +7,17 @@ import {
   fileNameStatusBarItem,
   nowTimeStatusBarItem,
 } from "./constant/statusBarItem";
+import { registerCommand } from "./lib/vscode";
 
-export function activate(context: vscode.ExtensionContext) {
+export const activate = (context: vscode.ExtensionContext) => {
   //////////////////////////////////////////////////////////////
   // Hello World コマンド
   //////////////////////////////////////////////////////////////
-  const helloWorld = vscode.commands.registerCommand(
-    "vscode-extension-sample.helloWorld",
-    () => {
-      vscode.window.showInformationMessage(
-        "Hello World from vscode-extension-sample!"
-      );
-    }
+  registerCommand(
+    "helloWorld",
+    () => showInformationMessage("Hello World!!"),
+    context
   );
-  context.subscriptions.push(helloWorld);
 
   //////////////////////////////////////////////////////////////
   // 文字数 表示 （ファイル編集時）
@@ -117,6 +114,6 @@ export function activate(context: vscode.ExtensionContext) {
     // 初期化
     isTextChangeEventHookCount = 0;
   }, diffTime * 1000);
-}
+};
 
-export function deactivate() {}
+export const deactivate = () => {};
