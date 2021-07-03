@@ -1,32 +1,14 @@
 import vscode from "./plugin/vscode";
 import dayjs from "./plugin/dayjs";
 import { countTextLength, getFileName } from "./lib/utils";
+import {
+  inputSpeedStatusBarItem,
+  charCountStatusBarItem,
+  fileNameStatusBarItem,
+  nowTimeStatusBarItem,
+} from "./constant/statusBarItem";
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log(
-    'Congratulations, your extension "vscode-extension-sample" is now active!'
-  );
-
-  //////////////////////////////////////////////////////////////
-  // ステータスバー
-  //////////////////////////////////////////////////////////////
-  const inputSpeedItem = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Left,
-    1
-  ); // 入力スピード
-  const charCountItem = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Left,
-    2
-  ); // 文字数
-  const fileNameItem = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Left,
-    3
-  ); // ファイル名
-  const nowTimeItem = vscode.window.createStatusBarItem(
-    vscode.StatusBarAlignment.Right,
-    1000
-  ); // 現在時刻
-
   //////////////////////////////////////////////////////////////
   // Hello World コマンド
   //////////////////////////////////////////////////////////////
@@ -48,8 +30,8 @@ export function activate(context: vscode.ExtensionContext) {
       const doc = event.document;
       const text = doc.getText();
       const count = countTextLength(text);
-      charCountItem.text = `文字数: ${count}`;
-      charCountItem.show();
+      charCountStatusBarItem.text = `文字数: ${count}`;
+      charCountStatusBarItem.show();
     },
     null,
     context.subscriptions
@@ -66,16 +48,16 @@ export function activate(context: vscode.ExtensionContext) {
     const count = countTextLength(text);
 
     // ファイル名 反映
-    fileNameItem.text = `ファイル名: ${fileName}`;
-    fileNameItem.show();
+    fileNameStatusBarItem.text = `ファイル名: ${fileName}`;
+    fileNameStatusBarItem.show();
 
     // 文字数反映
-    charCountItem.text = `文字数: ${count}`;
-    charCountItem.show();
+    charCountStatusBarItem.text = `文字数: ${count}`;
+    charCountStatusBarItem.show();
   } else {
     // 非表示
-    fileNameItem.hide();
-    charCountItem.hide();
+    fileNameStatusBarItem.hide();
+    charCountStatusBarItem.hide();
   }
   vscode.window.onDidChangeActiveTextEditor((activeEditor) => {
     if (activeEditor) {
@@ -85,16 +67,16 @@ export function activate(context: vscode.ExtensionContext) {
       const count = countTextLength(text);
 
       // ファイル名 反映
-      fileNameItem.text = `ファイル名: ${fileName}`;
-      fileNameItem.show();
+      fileNameStatusBarItem.text = `ファイル名: ${fileName}`;
+      fileNameStatusBarItem.show();
 
       // 文字数反映
-      charCountItem.text = `文字数: ${count}`;
-      charCountItem.show();
+      charCountStatusBarItem.text = `文字数: ${count}`;
+      charCountStatusBarItem.show();
     } else {
       // 非表示
-      fileNameItem.hide();
-      charCountItem.hide();
+      fileNameStatusBarItem.hide();
+      charCountStatusBarItem.hide();
     }
   });
 
@@ -103,8 +85,8 @@ export function activate(context: vscode.ExtensionContext) {
   //////////////////////////////////////////////////////////////
   setInterval(() => {
     const now = dayjs();
-    nowTimeItem.text = now.format("現在時刻: HH:mm:ss");
-    nowTimeItem.show();
+    nowTimeStatusBarItem.text = now.format("現在時刻: HH:mm:ss");
+    nowTimeStatusBarItem.show();
   }, 100);
 
   //////////////////////////////////////////////////////////////
@@ -129,8 +111,8 @@ export function activate(context: vscode.ExtensionContext) {
       Math.round((diffCount / diffTime) * 10 ** digits) / 10 ** digits;
 
     // スピード反映
-    inputSpeedItem.text = `入力スピード: ${speed.toFixed(digits)}/s`;
-    inputSpeedItem.show();
+    inputSpeedStatusBarItem.text = `入力スピード: ${speed.toFixed(digits)}/s`;
+    inputSpeedStatusBarItem.show();
 
     // 初期化
     isTextChangeEventHookCount = 0;
