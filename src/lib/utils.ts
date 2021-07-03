@@ -33,6 +33,5 @@ export const calculateSpeed = (
 ): number => {
   const speed = inputCount / inputTime;
   const roundedSpeed = Math.round(speed * 10 ** digits) / 10 ** digits;
-
   return roundedSpeed;
 };

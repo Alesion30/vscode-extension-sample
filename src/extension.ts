@@ -28,6 +28,14 @@ export const activate = (context: vscode.ExtensionContext) => {
   );
 
   //////////////////////////////////////////////////////////////
+  // 現在時刻表示
+  //////////////////////////////////////////////////////////////
+  setInterval(() => {
+    const now = dayjs();
+    nowTimeStatusBarItemModel.show(now);
+  }, 100);
+
+  //////////////////////////////////////////////////////////////
   // 文字数 表示 （ファイル編集時）
   //////////////////////////////////////////////////////////////
   vscode.workspace.onDidChangeTextDocument(
@@ -49,14 +57,6 @@ export const activate = (context: vscode.ExtensionContext) => {
   vscode.window.onDidChangeActiveTextEditor((activeEditor) => {
     reflectFileNameAndCharCount(activeEditor, fileNameStatusBarItemModel, charCountStatusBarItemModel);
   });
-
-  //////////////////////////////////////////////////////////////
-  // 現在時刻表示
-  //////////////////////////////////////////////////////////////
-  setInterval(() => {
-    const now = dayjs();
-    nowTimeStatusBarItemModel.show(now);
-  }, 100);
 
   //////////////////////////////////////////////////////////////
   // 入力スピード
