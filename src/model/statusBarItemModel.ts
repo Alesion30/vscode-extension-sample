@@ -45,7 +45,7 @@ export class FileNameStatusBarItemModel extends StatusBarItemModel {
   }
 
   /**
-   * ファイル名を表示する
+   * ファイル名を表示する [eg. `ファイル名: hoge.txt`]
    *
    * @param fileName ファイル名
    */
@@ -61,7 +61,7 @@ export class InputSpeedStatusBarItemModel extends StatusBarItemModel {
   }
 
   /**
-   * 入力スピードを表示する
+   * 入力スピードを表示する [eg. `入力スピード: 0.0/s`]
    *
    * @param speed 入力スピード
    * @param digits 小数点以下桁数 [default 1]
@@ -79,7 +79,7 @@ export class CharCountStatusBarItemModel extends StatusBarItemModel {
   }
 
   /**
-   * 文字数を表示する
+   * 文字数を表示する [eg. `文字数: 370`]
    *
    * @param count 文字数
    */
@@ -95,7 +95,7 @@ export class NowTimeStatusBarItemModel extends StatusBarItemModel {
   }
 
   /**
-   * 現在時刻を表示する
+   * 現在時刻を表示する [eg. `現在時刻: 18:19:20`]
    *
    * @param now 現在時刻
    */
