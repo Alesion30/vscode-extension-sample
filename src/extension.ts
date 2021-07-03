@@ -16,7 +16,7 @@ export const activate = (context: vscode.ExtensionContext) => {
   registerCommand(
     "helloWorld",
     () => showInformationMessage("Hello World!!"),
-    context
+    context.subscriptions
   );
 
   //////////////////////////////////////////////////////////////

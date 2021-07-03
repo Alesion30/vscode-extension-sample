@@ -2,22 +2,22 @@ import { APP_NAME } from "../config/env";
 import vscode from "../plugin/vscode";
 
 /**
- * コマンドを登録する
+ * vscodeのコマンドを登録します。
  * package.jsonのcontributes.commandsにも登録する必要があります
  *
- * @param command - コマンド名
- * @param callback - コマンドの実行処理
- * @param context - コンテキスト
- * @return {void}
+ * @param command コマンド名
+ * @param callback コマンドの実行処理
+ * @param disposables Disposables
+ * @return
  */
 export const registerCommand = (
-  command: string, // コマンド名
+  command: string,
   callback: (...args: any[]) => any,
-  context: vscode.ExtensionContext
+  disposables?: vscode.Disposable[]
 ): void => {
   const disposable = vscode.commands.registerCommand(
     `${APP_NAME}.${command}`,
     callback
   );
-  context.subscriptions.push(disposable);
+  disposables?.push(disposable);
 };
