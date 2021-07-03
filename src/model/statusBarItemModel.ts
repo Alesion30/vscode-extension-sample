@@ -1,5 +1,5 @@
 import dayjs from "../plugin/dayjs";
-import { StatusBarItem } from "vscode";
+import { StatusBarItem } from "../plugin/vscode";
 import {
   charCountStatusBarItem,
   fileNameStatusBarItem,
