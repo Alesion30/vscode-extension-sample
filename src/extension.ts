@@ -35,11 +35,12 @@ export const activate = (context: vscode.ExtensionContext) => {
     const now = dayjs();
     nowTimeStatusBarItemModel.show(now);
 
-    // 毎分のアラート
-    if (now.second() === 0 && flag === false) {
+    // X時00分00秒にアラート
+    const isAlert = now.minute() === 0 && now.second() === 0;
+    if (isAlert && flag === false) {
       showInformationMessage(`${now.format("HH時mm分")}になりました`);
       flag = true;
-    } else if (now.second() !== 0) {
+    } else if (!isAlert) {
       flag = false;
     }
   }, 100);
@@ -67,13 +68,17 @@ export const activate = (context: vscode.ExtensionContext) => {
     fileNameStatusBarItemModel,
     charCountStatusBarItemModel
   );
-  vscode.window.onDidChangeActiveTextEditor((activeEditor) => {
-    reflectFileNameAndCharCount(
-      activeEditor,
-      fileNameStatusBarItemModel,
-      charCountStatusBarItemModel
-    );
-  });
+  vscode.window.onDidChangeActiveTextEditor(
+    (activeEditor) => {
+      reflectFileNameAndCharCount(
+        activeEditor,
+        fileNameStatusBarItemModel,
+        charCountStatusBarItemModel
+      );
+    },
+    null,
+    context.subscriptions
+  );
 
   //////////////////////////////////////////////////////////////
   // 入力スピード
